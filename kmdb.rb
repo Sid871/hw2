@@ -69,10 +69,31 @@
 
 # Delete existing data, so you'll start fresh each time this script is run.
 # Use `Model.destroy_all` code.
-# TODO!
+Studio.destroy_all
+Movie.destroy_all
+Actor.destroy_all
+Role.destroy_all
 
 # Generate models and tables, according to the domain model.
-# TODO!
+class Studio < ApplicationRecord
+    has_many :movies
+  end
+  
+  class Movie < ApplicationRecord
+    belongs_to :studio
+    has_many :roles
+    has_many :actors, through: :roles
+  end
+  
+  class Actor < ApplicationRecord
+    has_many :roles
+    has_many :movies, through: :roles
+  end
+  
+  class Role < ApplicationRecord
+    belongs_to :movie
+    belongs_to :actor
+  end
 
 # Insert data into the database that reflects the sample data shown above.
 # Do not use hard-coded foreign key IDs.
